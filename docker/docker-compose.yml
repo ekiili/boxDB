@@ -1,0 +1,30 @@
+version: "3.8"
+services:
+  db:
+    image: postgres
+    container_name: box_postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: boxdb
+      POSTGRES_PASSWORD: iloveboxes
+    volumes:
+      - local_pgdata:/var/lib/postgresql/data
+      - ./init-db.sql/:/docker-entrypoint-initdb.d/init-db.sql
+ 
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: box_pgadmin4
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: iloveboxes@box.com
+      PGADMIN_DEFAULT_PASSWORD: iloveboxes
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+volumes:
+  local_pgdata:
+  pgadmin-data:
